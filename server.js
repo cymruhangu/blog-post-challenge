@@ -12,9 +12,6 @@ const app = express();
 app.use(morgan("common"));
 app.use(express.json());
 
-
-
-//================
 app.get('/blogs', (req, res) => {
   BlogPost
     .find() 
@@ -113,10 +110,9 @@ let server;
 
 
 function runServer(databaseUrl, port=PORT) {
-  console.log(databaseUrl);
-  console.log(port);
+  console.log(`databaseUrl is ${databaseUrl}`);
   return new Promise((resolve, reject) => {
-    mongoose.connect(databaseUrl, err => {
+    mongoose.connect(databaseUrl,  { useNewUrlParser: true }, err => {
       if (err) {
         return reject(err);
       }
@@ -156,4 +152,4 @@ if (require.main === module) {
   runServer(DATABASE_URL).catch(err => console.error(err));
 }
 
-module.exports = {runServer, app, closeServer };
+module.exports = {app, runServer, closeServer };
